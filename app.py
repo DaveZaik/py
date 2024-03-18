@@ -10,8 +10,10 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.config.from_object('config')
 app.secret_key = os.environ.get('SECRET_KEY') or os.urandom(24)
-# db = SQLAlchemy(app)
-# bcrypt = Bcrypt(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/voting_app'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
 
 # Configure upload folder for candidate photos
 UPLOAD_FOLDER = 'static/img'
@@ -150,4 +152,4 @@ def init_app():
 
 if __name__ == '__main__':
     init_app()
-    app.run(debug=True)
+    app.run(debug=True)  
